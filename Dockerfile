@@ -2,7 +2,7 @@
 FROM alpine:latest
 
 # 安装 rclone 所需的依赖
-RUN apk add --no-cache curl unzip bash
+RUN apk add --no-cache curl unzip bash inotify-tools
 
 # 下载并安装 rclone
 RUN curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip && \
