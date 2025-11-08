@@ -1,0 +1,36 @@
+name: 构建与测试
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+
+      - name: 转换仓库所有者为小写
+        id: string
+        uses: ASzc/change-string-case-action@v5
+        with:
+          string: ${{ github.repository_owner }}
+
+      - name: 显示转换后的用户名
+        run: echo "仓库所有者 (小写): ${{ steps.string.outputs.lowercase }}"
+
+      - name: 检查脚本可执行权限
+        run: |
+          if [[ ! -x backup.sh ]]; then
+            echo "backup.sh 不是可执行文件"
+            exit 1
+          fi
+          if [[ ! -x restore.sh ]]; then
+            echo "restore.sh 不是可执行文件"
+            exit 1
+          fi
+          echo "脚本权限检查通过"
